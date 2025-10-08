@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Para Gleice — 💗</title>
+  <style>
+    :root{
+      --bg1:#ffdee9;
+      --bg2:#b5fffc;
+      --card-bg: rgba(255,255,255,0.85);
+      --accent:#ff6b81;
+      --muted:#6b6b6b;
+      --shadow: 0 8px 30px rgba(14,14,20,0.12);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    html,body{height:100%;}
+    body{
+      margin:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: linear-gradient(135deg,var(--bg1),var(--bg2));
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:32px;
+    }
+
+    .card{
+      width:100%;
+      max-width:720px;
+      background:var(--card-bg);
+      border-radius:18px;
+      box-shadow:var(--shadow);
+      padding:34px;
+      text-align:center;
+      backdrop-filter: blur(6px) saturate(120%);
+    }
+
+    .heart{
+      position: relative;
+      width: 100px;
+      height: 90px;
+      margin: 0 auto 20px;
+      background-color: var(--accent);
+      transform: rotate(-45deg);
+      animation: beat 1.2s infinite ease-in-out;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 100px;
+      height: 90px;
+      background-color: var(--accent);
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -50px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: 50px;
+      top: 0;
+    }
+
+    @keyframes beat {
+      0%, 100% { transform: rotate(-45deg) scale(1); }
+      25% { transform: rotate(-45deg) scale(1.1); }
+      50% { transform: rotate(-45deg) scale(0.95); }
+      75% { transform: rotate(-45deg) scale(1.05); }
+    }
+
+    h1{margin:6px 0 0 0;font-size:32px;}
+    p.lead{color:var(--muted);margin:10px 0 22px 0;font-size:15px}
+
+    .counter{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:18px;
+      margin:18px 0 10px 0;
+    }
+    .days{
+      font-size:72px;
+      line-height:1;
+      font-weight:700;
+      color:var(--accent);
+      letter-spacing:-1px;
+    }
+    .label{font-size:14px;color:var(--muted);}
+
+    .message{
+      margin-top:18px;
+      font-size:16px;
+      color:#222;
+      line-height:1.5;
+    }
+
+    footer{margin-top:22px;font-size:13px;color:var(--muted)}
+
+    .btn{
+      display:inline-block;
+      margin-top:18px;
+      padding:10px 16px;
+      border-radius:999px;
+      background:linear-gradient(90deg, rgba(255,107,129,0.95), rgba(255,140,160,0.95));
+      color:white;
+      border:0;
+      cursor:pointer;
+      font-weight:600;
+      box-shadow:0 6px 16px rgba(255,107,129,0.18);
+    }
+
+    @media (max-width:480px){
+      .days{font-size:48px}
+      h1{font-size:22px}
+      .heart{width:70px;height:63px}
+      .heart::before,.heart::after{width:70px;height:63px}
+    }
+  </style>
+</head>
+<body>
+  <div class="card" role="main">
+    <div class="heart" aria-hidden="true"></div>
+    <h1>Para a Gleice, com carinho 💕</h1>
+    <p class="lead">Contando os dias desde que tudo ficou especial — 18 de julho de 2025.</p>
+
+    <div class="counter" aria-live="polite">
+      <div>
+        <div class="days" id="daysCounter">0</div>
+        <div class="label">dias juntos</div>
+      </div>
+    </div>
+
+    <p class="message">Gleice, contigo eu aprendi que a conexão certa fala mais do que mil palavras.</p>
+
+    <button class="btn" id="copyBtn">Copiar mensagem</button>
+
+    <footer>Feito com carinho por Kelwin Felipe — <span id="today"></span></footer>
+  </div>
+
+  <script>
+    const startDate = new Date(2025, 6, 18, 0, 0, 0);
+    const daysCounter = document.getElementById('daysCounter');
+    const todayEl = document.getElementById('today');
+
+    function updateCounter(){
+      const now = new Date();
+      const diff = now - startDate;
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      daysCounter.textContent = days >= 0 ? days : 0;
+
+      const opts = {year:'numeric', month:'long', day:'numeric'};
+      todayEl.textContent = now.toLocaleDateString('pt-BR', opts);
+    }
+
+    updateCounter();
+    setInterval(updateCounter, 1000);
+
+    document.getElementById('copyBtn').addEventListener('click', async ()=>{
+      const text = `Gleice, cada dia ao seu lado é um presente. Obrigado por trazer leveza, sorrisos e coragem aos meus dias.`;
+      try{
+        await navigator.clipboard.writeText(text);
+        const old = document.getElementById('copyBtn').textContent;
+        document.getElementById('copyBtn').textContent = 'Mensagem copiada!';
+        setTimeout(()=> document.getElementById('copyBtn').textContent = old, 1800);
+      }catch(e){
+        alert('Não foi possível copiar — selecione e copie manualmente:\n' + text);
+      }
+    });
+  </script>
+</body>
+</html>
